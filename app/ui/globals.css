@@ -1,0 +1,25 @@
+:root {
+  --bgDark: #151c2c;
+  --bgSoftDark: #182237;
+  --bgSoft: #f2f2f2;
+  --textDark: #ffffff;
+  --text: #222222;
+  --textSoftDark: #b7bac1;
+  --textSoft: #676767;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: white;
+  color: var(--text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
