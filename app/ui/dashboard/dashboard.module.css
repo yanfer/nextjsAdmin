@@ -2,9 +2,9 @@
   display: flex;
 }
 
-.menu {
+/* .menu {
   flex: 1;
-}
+} */
 
 .content {
   flex: 4;

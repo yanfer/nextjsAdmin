@@ -99,7 +99,7 @@ const Sidebar = () => {
       <ul>
         {menuItems.map((cat) => {
           return (
-            <li key={cat.title}>
+            <li className={styles.unitList} key={cat.title}>
               <span className={styles.cat}>{cat.title}</span>
               {cat.list.map((item) => {
                 return <MenuLink item={item} key={item.title} />;
@@ -108,6 +108,10 @@ const Sidebar = () => {
           );
         })}
       </ul>
+
+      <button className={styles.logout}>
+        <MdLogout /> Cerrar Sesion
+      </button>
     </div>
   );
 };
