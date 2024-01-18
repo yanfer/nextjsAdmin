@@ -31,11 +31,12 @@
 }
 
 .list {
-  list-style: none;
+  list-style-type: none;
 }
 
 .unitList {
   padding-right: 10px;
+  list-style-type: none;
 }
 
 .cat {
