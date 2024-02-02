@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@next/eslint-plugin-next": "14.0.1",
+    "@nextui-org/react": "^2.2.9",
+    "antd": "^5.13.3",
+    "framer-motion": "^11.0.3",
     "next": "14.0.1",
     "react": "18",
     "react-dom": "18",

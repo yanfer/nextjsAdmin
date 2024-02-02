@@ -18,60 +18,60 @@ import Image from 'next/image';
 
 const menuItems = [
   {
-    title: 'Pages',
+    title: 'Páginas',
     list: [
       {
-        title: 'Dashboard',
+        title: 'Panel de Control',
         path: '/dashboard',
         icon: <MdDashboard />,
       },
       {
-        title: 'Users',
+        title: 'Usuarios',
         path: '/dashboard/users',
         icon: <MdSupervisedUserCircle />,
       },
       {
-        title: 'Products',
+        title: 'Folios',
         path: '/dashboard/products',
         icon: <MdShoppingBag />,
       },
       {
-        title: 'Transactions',
+        title: 'Transacciones',
         path: '/dashboard/transactions',
         icon: <MdAttachMoney />,
       },
     ],
   },
   {
-    title: 'Analytics',
+    title: 'Analítica',
     list: [
       {
-        title: 'Revenue',
+        title: 'Resumen',
         path: '/dashboard/revenue',
         icon: <MdWork />,
       },
       {
-        title: 'Reports',
+        title: 'Reportes',
         path: '/dashboard/reports',
         icon: <MdAnalytics />,
       },
       {
-        title: 'Teams',
+        title: 'Delegaciones',
         path: '/dashboard/teams',
         icon: <MdPeople />,
       },
     ],
   },
   {
-    title: 'User',
+    title: 'Usuario',
     list: [
       {
-        title: 'Settings',
+        title: 'Configuración',
         path: '/dashboard/settings',
         icon: <MdOutlineSettings />,
       },
       {
-        title: 'Help',
+        title: 'Ayuda',
         path: '/dashboard/help',
         icon: <MdHelpCenter />,
       },
@@ -91,8 +91,8 @@ const Sidebar = () => {
           width="50"
         />
         <div className={styles.userDetail}>
-          <span className={styles.username}>John Doe</span>
-          <span className={styles.userTitle}>Administrator</span>
+          <span className={styles.username}>Yanfer Araque</span>
+          <span className={styles.userTitle}>Manager</span>
         </div>
       </div>
 
