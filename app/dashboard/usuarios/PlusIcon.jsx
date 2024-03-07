@@ -15,7 +15,7 @@ export const PlusIcon = ({ size = 24, width, height, ...props }) => (
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth={1.5}
+      strokeWidth={2.5}
     >
       <path d="M6 12h12" />
       <path d="M12 18V6" />

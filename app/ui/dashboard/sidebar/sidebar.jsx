@@ -27,7 +27,7 @@ const menuItems = [
       },
       {
         title: 'Usuarios',
-        path: '/dashboard/users',
+        path: '/dashboard/usuarios',
         icon: <MdSupervisedUserCircle />,
       },
       {
@@ -37,7 +37,7 @@ const menuItems = [
       },
       {
         title: 'Aclaraciones',
-        path: '/dashboard/aclaraciones',
+        path: '/dashboard/users',
         icon: <MdBackpack />,
       },
     ],

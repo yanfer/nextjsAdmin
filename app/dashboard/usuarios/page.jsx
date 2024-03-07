@@ -1,5 +1,6 @@
 'use client';
 
+import styles from '@/app/ui/dashboard/usuarios/usuarios.module.css';
 import React from 'react';
 import {
   Table,
@@ -18,17 +19,29 @@ import {
   User,
   Pagination,
 } from '@nextui-org/react';
+
+import {
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+} from '@nextui-org/react';
+
+import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
+
 import { PlusIcon } from './PlusIcon';
 import { VerticalDotsIcon } from './VerticalDotsIcon';
 import { SearchIcon } from './SearchIcon';
 import { ChevronDownIcon } from './ChevronDownIcon';
-import { columns, users, statusOptions } from './data';
+import { columns, users, statusOptions, puesto, departamento } from './data';
 import { capitalize } from './utils';
 
 const statusColorMap = {
-  active: 'success',
-  paused: 'danger',
-  vacation: 'warning',
+  activo: 'success',
+  inactivo: 'danger',
+  vacaciones: 'warning',
 };
 
 const INITIAL_VISIBLE_COLUMNS = ['name', 'role', 'status', 'actions'];
@@ -39,12 +52,14 @@ export default function MyTable() {
   const [visibleColumns, setVisibleColumns] = React.useState(
     new Set(INITIAL_VISIBLE_COLUMNS)
   );
+
   const [statusFilter, setStatusFilter] = React.useState('all');
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [sortDescriptor, setSortDescriptor] = React.useState({
     column: 'age',
     direction: 'ascending',
   });
+
   const [page, setPage] = React.useState(1);
 
   const hasSearchFilter = Boolean(filterValue);
@@ -57,12 +72,14 @@ export default function MyTable() {
     );
   }, [visibleColumns]);
 
+  const keys = ['id', 'name', 'email'];
+
   const filteredItems = React.useMemo(() => {
     let filteredUsers = [...users];
 
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
-        user.name.toLowerCase().includes(filterValue.toLowerCase())
+        user.email.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
     if (
@@ -140,9 +157,9 @@ export default function MyTable() {
                 </Button>
               </DropdownTrigger>
               <DropdownMenu>
-                <DropdownItem>View</DropdownItem>
-                <DropdownItem>Edit</DropdownItem>
-                <DropdownItem>Delete</DropdownItem>
+                <DropdownItem>Ver</DropdownItem>
+                <DropdownItem>Editar</DropdownItem>
+                <DropdownItem>Borrar</DropdownItem>
               </DropdownMenu>
             </Dropdown>
           </div>
@@ -189,8 +206,8 @@ export default function MyTable() {
         <div className="flex justify-between gap-3 items-end">
           <Input
             isClearable
-            className="w-full sm:max-w-[44%]"
-            placeholder="Search by name..."
+            className="w-full sm:max-w-[44%] "
+            placeholder="Buscar por nombre..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -203,7 +220,7 @@ export default function MyTable() {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Status
+                  Estado
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -227,7 +244,7 @@ export default function MyTable() {
                   endContent={<ChevronDownIcon className="text-small" />}
                   variant="flat"
                 >
-                  Columns
+                  Columnas
                 </Button>
               </DropdownTrigger>
               <DropdownMenu
@@ -245,17 +262,18 @@ export default function MyTable() {
                 ))}
               </DropdownMenu>
             </Dropdown>
-            <Button color="primary" endContent={<PlusIcon />}>
-              Add New
-            </Button>
+
+            {/* <Button color="primary" endContent={<PlusIcon />}>
+              Añadir Nuevo
+            </Button> */}
           </div>
         </div>
         <div className="flex justify-between items-center">
           <span className="text-default-400 text-small">
-            Total {users.length} users
+            {users.length} usuarios en total
           </span>
           <label className="flex items-center text-default-400 text-small">
-            Rows per page:
+            Filas por página:
             <select
               className="bg-transparent outline-none text-default-400 text-small"
               onChange={onRowsPerPageChange}
@@ -264,6 +282,8 @@ export default function MyTable() {
               <option value="10">10</option>
               <option value="20">20</option>
               <option value="50">50</option>
+              <option value="50">100</option>
+              <option value="50">500</option>
             </select>
           </label>
         </div>
@@ -285,7 +305,7 @@ export default function MyTable() {
         <span className="w-[30%] text-small text-default-400">
           {selectedKeys === 'all'
             ? 'All items selected'
-            : `${selectedKeys.size} of ${filteredItems.length} selected`}
+            : `${selectedKeys.size} of ${filteredItems.length} seleccionados`}
         </span>
         <Pagination
           isCompact
@@ -303,7 +323,7 @@ export default function MyTable() {
             variant="flat"
             onPress={onPreviousPage}
           >
-            Previous
+            Anterior
           </Button>
           <Button
             isDisabled={pages === 1}
@@ -311,25 +331,129 @@ export default function MyTable() {
             variant="flat"
             onPress={onNextPage}
           >
-            Next
+            Siguiente
           </Button>
         </div>
       </div>
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
-    <div>
+    <div style={{ paddingTop: '25px' }}>
+      <div style={{ paddingBottom: '15px' }}>
+        <Button
+          className={styles.modalButton}
+          style={{ backgroundColor: 'blue' }}
+          onPress={onOpen}
+          endContent={<PlusIcon />}
+        >
+          {' '}
+          Crear Usuario
+        </Button>
+        <Modal
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+          isDismissable={false}
+          isKeyboardDismissDisabled={true}
+          size="5xl"
+          backdrop="blur"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Llene el Formulario
+                </ModalHeader>
+                <ModalBody>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex w-full flex-wrap md:flex-nowrap mb-6 md:mb-0 gap-4">
+                      <Input
+                        className={styles.userInput}
+                        size="sm"
+                        type="text"
+                        label="Nombre Completo"
+                      />
+                      <Input
+                        className={styles.userInput}
+                        size="sm"
+                        type="email"
+                        label="Correo Electrónico"
+                      />
+                      <Input
+                        className={styles.userInput}
+                        size="sm"
+                        type="number"
+                        label="Edad"
+                      />
+
+                      <Autocomplete
+                        className={styles.userInput}
+                        allowsCustomValue
+                        label="Selecciona Departamento"
+                        size="sm"
+                        defaultItems={departamento}
+                      >
+                        {(item) => (
+                          <AutocompleteItem key={item.value}>
+                            {item.label}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                      <Autocomplete
+                        className={styles.userInput}
+                        allowsCustomValue
+                        label="Selecciona Puesto"
+                        size="sm"
+                        defaultItems={puesto}
+                      >
+                        {(item) => (
+                          <AutocompleteItem key={item.value}>
+                            {item.label}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                      <Autocomplete
+                        className={styles.userInput}
+                        allowsCustomValue
+                        label="Selecciona Estado del Empleado"
+                        size="sm"
+                        defaultItems={statusOptions}
+                      >
+                        {(item) => (
+                          <AutocompleteItem key={item.uid}>
+                            {item.name}
+                          </AutocompleteItem>
+                        )}
+                      </Autocomplete>
+                    </div>
+                  </div>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="danger" variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  <Button color="primary" onPress={onClose}>
+                    Action
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      </div>
       <Table
         aria-label="Example table with custom cells, pagination and sorting"
         isHeaderSticky
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
+        className="pt-6"
         classNames={{
-          wrapper: 'max-h-[382px]',
+          wrapper: 'max-h-[400px]',
         }}
         selectedKeys={selectedKeys}
-        selectionMode="multiple"
+        selectionMode="single"
         sortDescriptor={sortDescriptor}
         topContent={topContent}
         topContentPlacement="outside"
@@ -347,7 +471,10 @@ export default function MyTable() {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent={'No users found'} items={sortedItems}>
+        <TableBody
+          emptyContent={'No se encontró el usuario'}
+          items={sortedItems}
+        >
           {(item) => (
             <TableRow key={item.id}>
               {(columnKey) => (

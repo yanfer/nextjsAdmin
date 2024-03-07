@@ -1,0 +1,19 @@
+.modalButton {
+  background: rgb(57, 71, 102);
+  background: linear-gradient(
+    318deg,
+    rgba(57, 71, 102, 1) 0%,
+    rgba(71, 145, 228, 1) 0%,
+    rgba(18, 92, 185, 1) 74%
+  );
+  color: white;
+  font-weight: 600;
+}
+
+.userInput {
+  width: 480px;
+  border-style: solid;
+  border-width: 3px;
+  border-color: rgba(137, 125, 93, 0.327);
+  border-radius: 10px;
+}

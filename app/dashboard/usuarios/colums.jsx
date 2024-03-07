@@ -9,14 +9,14 @@ export const User = {
 export const columns = [
   {
     key: 'name',
-    label: 'Name',
+    label: 'Nombre',
   },
   {
     key: 'email',
-    label: 'Email',
+    label: 'Correo',
   },
   {
     key: 'lastSeen',
-    label: 'Last Seen',
+    label: 'Ultima Entrada',
   },
 ];
