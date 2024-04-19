@@ -37,6 +37,7 @@ import { SearchIcon } from './SearchIcon';
 import { ChevronDownIcon } from './ChevronDownIcon';
 import { columns, users, statusOptions, puesto, departamento } from './data';
 import { capitalize } from './utils';
+import Link from 'next/link';
 
 const statusColorMap = {
   activo: 'success',
@@ -344,6 +345,7 @@ export default function MyTable() {
     <div style={{ paddingTop: '25px' }}>
       <div style={{ paddingBottom: '15px' }}>
         <Button
+          id="btnCrearUsuario"
           className={styles.modalButton}
           style={{ backgroundColor: 'blue' }}
           onPress={onOpen}
@@ -374,18 +376,21 @@ export default function MyTable() {
                         size="sm"
                         type="text"
                         label="Nombre Completo"
+                        id="nombre"
                       />
                       <Input
                         className={styles.userInput}
                         size="sm"
                         type="email"
                         label="Correo Electrónico"
+                        id="email"
                       />
                       <Input
                         className={styles.userInput}
                         size="sm"
                         type="number"
                         label="Edad"
+                        id="edad"
                       />
 
                       <Autocomplete
@@ -394,6 +399,7 @@ export default function MyTable() {
                         label="Selecciona Departamento"
                         size="sm"
                         defaultItems={departamento}
+                        id="departamento"
                       >
                         {(item) => (
                           <AutocompleteItem key={item.value}>
@@ -407,6 +413,7 @@ export default function MyTable() {
                         label="Selecciona Puesto"
                         size="sm"
                         defaultItems={puesto}
+                        id="puesto"
                       >
                         {(item) => (
                           <AutocompleteItem key={item.value}>
@@ -420,6 +427,7 @@ export default function MyTable() {
                         label="Selecciona Estado del Empleado"
                         size="sm"
                         defaultItems={statusOptions}
+                        id="estado_empleado"
                       >
                         {(item) => (
                           <AutocompleteItem key={item.uid}>

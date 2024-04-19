@@ -32,7 +32,7 @@ const menuItems = [
       },
       {
         title: 'Folios',
-        path: '/dashboard/products',
+        path: '/dashboard/folios',
         icon: <MdShoppingBag />,
       },
       {

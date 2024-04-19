@@ -11,7 +11,7 @@ const config = {
     extend: {},
   },
   darkMode: 'class',
-  plugins: [nextui()],
+  plugins: [nextui(), require('daisyui')],
 };
 
 export default config;
