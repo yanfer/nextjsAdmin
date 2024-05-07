@@ -1,5 +1,3 @@
-'use client';
-
 import {
   Autocomplete,
   AutocompleteItem,
@@ -20,14 +18,17 @@ import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { MdUpload } from 'react-icons/md';
 import dayjs from 'dayjs';
 import 'dayjs/locale/es';
-import { useState } from 'react';
 
-import { PlusIcon } from '../usuarios/PlusIcon';
-import { statusOptions, puesto, departamento } from '../usuarios/data';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { PlusIcon } from '../../components/tableComponents/PlusIcon';
+import { puesto, departamento } from '../../components/tableComponents/data';
 import styles from '@/app/ui/dashboard/folios/folios.module.css';
-import { MdUpload } from 'react-icons/md';
+import ListaFolios from '@/app/components/ListaFolios';
 
 const theme = createTheme(
   {
@@ -54,16 +55,18 @@ export default function Folios() {
   const [archivo, setArchivo] = useState('');
   const [descripcion, setDescripcion] = useState('');
 
+  const router = useRouter();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!nombreRemitente || !puestoRemitente) {
-      alert('Nombre y Puesto del Remitente son requeridos');
+      alert('nombre y puesto requerido.');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3000/api/folio', {
+      const res = await fetch('http://localhost:3000/api/folios', {
         method: 'POST',
         headers: {
           'Content-type': 'application/json',
@@ -73,7 +76,7 @@ export default function Folios() {
           puestoRemitente,
           dependencia,
           delegacion,
-          nombreDocuento,
+          nombreDocumento,
           turno,
           referenciaInteresados,
           folioRecibido,
@@ -84,10 +87,10 @@ export default function Folios() {
         }),
       });
 
-      if ((res, ok)) {
-        router.push('/folio');
+      if (res.ok) {
+        router.push('/dashboard/folios');
       } else {
-        throw new Error('Fallo al crear nuevo folio');
+        throw new Error('Failed to create a Product');
       }
     } catch (error) {
       console.log(error);
@@ -106,6 +109,7 @@ export default function Folios() {
           {' '}
           Crear Folio
         </Button>
+
         <Modal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
@@ -141,7 +145,7 @@ export default function Folios() {
                       defaultItems={puesto}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.puestoRemitente}>
+                        <AutocompleteItem key={item.value}>
                           {item.label}
                         </AutocompleteItem>
                       )}
@@ -157,7 +161,7 @@ export default function Folios() {
                       defaultItems={puesto}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.dependencia}>
+                        <AutocompleteItem key={item.value}>
                           {item.label}
                         </AutocompleteItem>
                       )}
@@ -173,20 +177,19 @@ export default function Folios() {
                       defaultItems={puesto}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.delegacion}>
+                        <AutocompleteItem key={item.value}>
                           {item.label}
                         </AutocompleteItem>
                       )}
                     </Autocomplete>
 
                     <Input
-                      key={nombreDocumento}
                       onChange={(e) => setNombreDocumento(e.target.value)}
                       value={nombreDocumento}
                       className={styles.userInput}
                       size="sm"
                       type="text"
-                      label="Nombre del Documento"
+                      label="Nombre Documento"
                     />
 
                     <Autocomplete
@@ -199,7 +202,7 @@ export default function Folios() {
                       defaultItems={puesto}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.turno}>
+                        <AutocompleteItem key={item.value}>
                           {item.label}
                         </AutocompleteItem>
                       )}
@@ -215,7 +218,7 @@ export default function Folios() {
                       defaultItems={departamento}
                     >
                       {(item) => (
-                        <AutocompleteItem key={item.referenciaInteresados}>
+                        <AutocompleteItem key={item.value}>
                           {item.label}
                         </AutocompleteItem>
                       )}
@@ -302,7 +305,11 @@ export default function Folios() {
                   <Button color="danger" variant="light" onPress={onClose}>
                     Cerrar
                   </Button>
-                  <Button type="submit" color="primary">
+                  <Button
+                    type="submit"
+                    color="primary"
+                    onSubmitCapture={onClose}
+                  >
                     Enviar
                   </Button>
                 </ModalFooter>
@@ -310,6 +317,9 @@ export default function Folios() {
             )}
           </ModalContent>
         </Modal>
+      </div>
+      <div>
+        <ListaFolios />
       </div>
     </div>
   );

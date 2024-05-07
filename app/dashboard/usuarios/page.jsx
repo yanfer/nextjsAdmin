@@ -31,12 +31,18 @@ import {
 
 import { Autocomplete, AutocompleteItem } from '@nextui-org/react';
 
-import { PlusIcon } from './PlusIcon';
-import { VerticalDotsIcon } from './VerticalDotsIcon';
-import { SearchIcon } from './SearchIcon';
-import { ChevronDownIcon } from './ChevronDownIcon';
-import { columns, users, statusOptions, puesto, departamento } from './data';
-import { capitalize } from './utils';
+import { PlusIcon } from '../../components/tableComponents/PlusIcon';
+import { VerticalDotsIcon } from '../../components/tableComponents/VerticalDotsIcon';
+import { SearchIcon } from '../../components/tableComponents/SearchIcon';
+import { ChevronDownIcon } from '../../components/tableComponents/ChevronDownIcon';
+import {
+  columns,
+  users,
+  statusOptions,
+  puesto,
+  departamento,
+} from '../../components/tableComponents/data';
+import { capitalize } from '../../utils';
 import Link from 'next/link';
 
 const statusColorMap = {

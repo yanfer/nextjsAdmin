@@ -9,6 +9,65 @@ const columns = [
   { name: 'ACCIONES', uid: 'actions' },
 ];
 
+const testColums = [
+  {
+    key: 'name',
+    label: 'NAME',
+  },
+  { key: 'email', label: 'EMAIL' },
+  { key: 'lastSeen', label: 'LAST SEEN' },
+];
+
+const folioColumns = [
+  {
+    key: 'nombreRemitente',
+    label: 'REMITENTE',
+  },
+  {
+    key: 'puestoRemitente',
+    label: 'PUESTO',
+  },
+  {
+    key: 'dependencia',
+    label: 'DEPENDENCIA',
+  },
+  {
+    key: 'delegacion',
+    label: 'DELEGACIÓN',
+  },
+  {
+    key: 'nombreDocumento',
+    label: 'NOMBRE DEL DOCUMENTO',
+  },
+  {
+    key: 'turno',
+    label: 'TURNO',
+  },
+  {
+    key: 'referenciaInteresados',
+    label: 'INTERESADOS',
+  },
+  {
+    key: 'folioRecibido',
+    label: 'FOLIO RECIBIDO',
+  },
+  {
+    key: 'fechaRecepcion',
+    label: 'FECHA RECEPCIÓN',
+  },
+  {
+    key: 'fechaRecibido',
+    label: 'FECHA RECIBIDO',
+  },
+  {
+    key: 'archivo',
+    label: 'ARCHIVOS',
+  },
+  {
+    key: 'descripcion',
+    label: 'DESCRIPCIÓN',
+  },
+];
 const statusOptions = [
   { name: 'activo', uid: 'activo' },
   { name: 'inactivo', uid: 'inactivo' },
@@ -236,4 +295,12 @@ const users = [
   },
 ];
 
-export { columns, users, statusOptions, departamento, puesto };
+export {
+  testColums,
+  columns,
+  folioColumns,
+  users,
+  statusOptions,
+  departamento,
+  puesto,
+};
