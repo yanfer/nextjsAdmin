@@ -67,6 +67,10 @@ const folioColumns = [
     key: 'descripcion',
     label: 'DESCRIPCIÓN',
   },
+  {
+    key: 'acciones',
+    label: 'ACCIONES',
+  },
 ];
 const statusOptions = [
   { name: 'activo', uid: 'activo' },
