@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   Pagination,
   Input,
-  SortDescriptor,
 } from '@nextui-org/react';
 
 import { folioColumns } from './tableComponents/data';
@@ -25,6 +24,9 @@ export default function ListaFolios({ folios }) {
   /* FILTERING */
   const [filterValue, setFilterValue] = useState('');
   const hasSearchFilter = Boolean(filterValue);
+
+  /* 
+    FILTERING BY STRING
 
   const filteredItems = useMemo(() => {
     let filteredFolios = [...folios];
@@ -37,12 +39,43 @@ export default function ListaFolios({ folios }) {
       );
     }
     return filteredFolios;
+  }, [folios, filterValue, hasSearchFilter]); */
+
+  // FILTERING BY NUMBERS
+  const filteredItems = useMemo(() => {
+    let filteredFolios = [...folios];
+
+    if (hasSearchFilter) {
+      filteredFolios = filteredFolios.filter(
+        (folio) =>
+          folio.folioRecibido === Number(filterValue) ||
+          folio.folioRecibido.toString().includes(filterValue) ||
+          folio.nombreRemitente
+            .toLowerCase()
+            .includes(filterValue.toLocaleLowerCase()) ||
+          folio.puestoRemitente
+            .toLowerCase()
+            .includes(filterValue.toLocaleLowerCase()) ||
+          folio.dependencia
+            .toLowerCase()
+            .includes(filterValue.toLocaleLowerCase()) ||
+          folio.nombreDocumento
+            .toLowerCase()
+            .includes(filterValue.toLocaleLowerCase()) ||
+          folio.descripcion
+            .toLowerCase()
+            .includes(filterValue.toLocaleLowerCase()) ||
+          folio.fechaRecepcion.includes(filterValue) ||
+          folio.fechaRecibido.includes(filterValue)
+      );
+    }
+    return filteredFolios;
   }, [folios, filterValue, hasSearchFilter]);
 
   /* PAGINATION */
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
   const [page, setPage] = useState(1);
-  const pages = Math.ceil(folios.length / rowsPerPage);
+  const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
   const items = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
@@ -86,7 +119,7 @@ export default function ListaFolios({ folios }) {
           <Input
             isClearable
             className="w-full sm:max-w-[44%]"
-            placeholder="Buscar por folio..."
+            placeholder="Buscar por folio, remitente, puesto, fecha, etc..."
             startContent={<SearchIcon />}
             value={filterValue}
             onClear={() => onClear()}
@@ -152,13 +185,13 @@ export default function ListaFolios({ folios }) {
           <TableColumn
             key={column.key}
             align={column.key === 'acciones' ? 'center' : 'start'}
-            allowsSorting={column.sortable}
+            allowsSorting={column.key}
           >
             {column.label}
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={items} emptyContent={'Sin folios para mostrar'}>
+      <TableBody items={sortedItems} emptyContent={'Sin folios para mostrar'}>
         {(item) => (
           <TableRow key={item._id}>
             {(columnKey) => (

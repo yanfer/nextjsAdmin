@@ -73,6 +73,7 @@ export default function AddFolios() {
           'Content-type': 'application/json',
         },
         body: JSON.stringify({
+          folioRecibido,
           nombreRemitente,
           puestoRemitente,
           dependencia,
@@ -80,7 +81,6 @@ export default function AddFolios() {
           nombreDocumento,
           turno,
           referenciaInteresados,
-          folioRecibido,
           fechaRecepcion,
           fechaRecibido,
           archivo,

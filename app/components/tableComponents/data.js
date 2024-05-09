@@ -20,6 +20,10 @@ const testColums = [
 
 const folioColumns = [
   {
+    key: 'folioRecibido',
+    label: 'FOLIO RECIBIDO',
+  },
+  {
     key: 'nombreRemitente',
     label: 'REMITENTE',
   },
@@ -46,10 +50,6 @@ const folioColumns = [
   {
     key: 'referenciaInteresados',
     label: 'INTERESADOS',
-  },
-  {
-    key: 'folioRecibido',
-    label: 'FOLIO RECIBIDO',
   },
   {
     key: 'fechaRecepcion',

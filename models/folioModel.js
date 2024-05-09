@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 const topicSchema = new Schema(
   {
+    folioRecibido: { type: Number, required: true },
     nombreRemitente: { type: String, required: true },
     puestoRemitente: { type: String, required: true },
     dependencia: { type: String, required: true },
@@ -9,7 +10,7 @@ const topicSchema = new Schema(
     nombreDocumento: { type: String, required: true },
     turno: { type: String, required: true },
     referenciaInteresados: { type: String, required: true },
-    folioRecibido: { type: Number, required: true },
+
     fechaRecepcion: { type: Date, required: true },
     fechaRecibido: { type: Date, required: true },
     archivo: { type: String, required: false },
