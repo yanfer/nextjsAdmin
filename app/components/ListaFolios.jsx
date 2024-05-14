@@ -16,32 +16,38 @@ import {
   Input,
 } from '@nextui-org/react';
 
-import { folioColumns } from './tableComponents/data';
+import { columns, folioColumns } from './tableComponents/data';
 import { VerticalDotsIcon } from './tableComponents/VerticalDotsIcon';
 import { SearchIcon } from './tableComponents/SearchIcon';
+import Link from 'next/link';
+import { ChevronDownIcon } from './tableComponents/ChevronDownIcon';
+import { capitalize } from '../utils';
+
+const INITIAL_VISIBLE_COLUMNS = [
+  'folioRecibido',
+  'nombreRemitente',
+  'turno',
+  'acciones',
+  'fechaRecepcion',
+];
 
 export default function ListaFolios({ folios }) {
-  /* FILTERING */
   const [filterValue, setFilterValue] = useState('');
   const hasSearchFilter = Boolean(filterValue);
+  const [visibleColumns, setVisibleColumns] = useState(
+    new Set(INITIAL_VISIBLE_COLUMNS)
+  );
 
-  /* 
-    FILTERING BY STRING
+  //HIDE COLUMNS
+  const headerColumns = useMemo(() => {
+    if (visibleColumns === 'all') return columns;
 
-  const filteredItems = useMemo(() => {
-    let filteredFolios = [...folios];
+    return columns.filter((column) =>
+      Array.from(visibleColumns).includes(column.uid)
+    );
+  }, [visibleColumns]);
 
-    if (hasSearchFilter) {
-      filteredFolios = filteredFolios.filter((folio) =>
-        folio.nombreRemitente
-          .toLowerCase()
-          .includes(filterValue.toLocaleLowerCase())
-      );
-    }
-    return filteredFolios;
-  }, [folios, filterValue, hasSearchFilter]); */
-
-  // FILTERING BY NUMBERS
+  // FILTERING BY NUMBERS AND STRINGS
   const filteredItems = useMemo(() => {
     let filteredFolios = [...folios];
 
@@ -73,7 +79,7 @@ export default function ListaFolios({ folios }) {
   }, [folios, filterValue, hasSearchFilter]);
 
   /* PAGINATION */
-  const rowsPerPage = 10;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [page, setPage] = useState(1);
   const pages = Math.ceil(filteredItems.length / rowsPerPage);
 
@@ -98,6 +104,11 @@ export default function ListaFolios({ folios }) {
     });
   }, [sortDescriptor, items]);
 
+  const onRowsPerPageChange = useCallback((e) => {
+    setRowsPerPage(Number(e.target.value));
+    setPage(1);
+  }, []);
+
   const onSearchChange = useCallback((value) => {
     if (value) {
       setFilterValue(value);
@@ -112,6 +123,7 @@ export default function ListaFolios({ folios }) {
     setPage(1);
   });
 
+  /* SEARCH FIELD */
   const topContent = useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -125,10 +137,55 @@ export default function ListaFolios({ folios }) {
             onClear={() => onClear()}
             onValueChange={onSearchChange}
           />
+
+          <Dropdown>
+            <DropdownTrigger className="sm:flex">
+              <Button
+                endContent={<ChevronDownIcon className="text-small" />}
+                variant="flat"
+              >
+                Columnas
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              disallowEmptySelection
+              aria-label="Table Columns"
+              closeOnSelect={false}
+              selectedKeys={visibleColumns}
+              selectionMode="multiple"
+              onSelectionChange={setVisibleColumns}
+            >
+              {columns.map((column) => (
+                <DropdownItem key={column.uid} className="capitalize">
+                  {capitalize(column.name)}
+                </DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <span className="text-default-400 text-small">
+            {folios.length} folios en total
+          </span>
+          <label className="flex items-center text-default-400 text-small">
+            Filas por página:
+            <select
+              className="bg-transparent outline-none text-default-400 text-small"
+              onChange={onRowsPerPageChange}
+            >
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+              <option value="50">100</option>
+              <option value="50">500</option>
+            </select>
+          </label>
         </div>
       </div>
     );
-  }, [filterValue, onSearchChange, onClear]);
+  }, [filterValue, onSearchChange, onRowsPerPageChange, onClear]);
 
   const renderCell = useCallback((folio, columnKey) => {
     const cellValue = folio[columnKey];
@@ -142,8 +199,10 @@ export default function ListaFolios({ folios }) {
                   <VerticalDotsIcon className="text-default-300" />
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem>Ver</DropdownItem>
+              <DropdownMenu aria-label="dynamic">
+                <DropdownItem textValue="Ver">
+                  <Link href={`/dashboard/folios/${sortedItems._id}`}>Ver</Link>
+                </DropdownItem>
                 <DropdownItem>Editar</DropdownItem>
                 <DropdownItem>Borrar</DropdownItem>
               </DropdownMenu>
@@ -157,6 +216,7 @@ export default function ListaFolios({ folios }) {
 
   return (
     <Table
+      aria-label="Example table with dynamic content"
       topContentPlacement="outside"
       topContent={topContent}
       sortDescriptor={sortDescriptor}

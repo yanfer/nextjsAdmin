@@ -172,7 +172,7 @@ export default function AddFolios() {
                       selectedKey={delegacion}
                       className={styles.userInput}
                       allowsCustomValue
-                      label="Delegacion"
+                      label="Ambito"
                       size="sm"
                       defaultItems={puesto}
                     >
@@ -192,7 +192,7 @@ export default function AddFolios() {
                     />
                     <Autocomplete
                       onSelectionChange={setTurno}
-                      value={turno}
+                      selectedKey={turno}
                       className={styles.userInput}
                       allowsCustomValue
                       label="Turno"
@@ -255,7 +255,7 @@ export default function AddFolios() {
 
                                 <div>
                                   <DatePicker
-                                    label="Fecha de Recibo"
+                                    label="Fecha de Acuse"
                                     value={fechaRecibido}
                                     onChange={(newValue) =>
                                       setFechaRecibido(newValue)

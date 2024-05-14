@@ -1,6 +1,5 @@
 import ListaFolios from '@/app/components/ListaFolios';
 import AddFolios from '@/app/components/addFolios';
-import UserTable from '@/app/components/UserTable';
 
 async function getFolios() {
   const res = await fetch('http://localhost:3000/api/folios', {

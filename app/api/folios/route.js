@@ -10,31 +10,33 @@ export async function GET() {
 
 export async function POST(request) {
   const {
+    folioRecibido,
     nombreRemitente,
     puestoRemitente,
     dependencia,
-    delegacion,
+    ambito,
     nombreDocumento,
-    turno,
+    nombreTurno,
+    puestoTurno,
     referenciaInteresados,
-    folioRecibido,
     fechaRecepcion,
-    fechaRecibido,
+    fechaAcuse,
     archivo,
     descripcion,
   } = await request.json();
   await dbConnect();
   await Folio.create({
+    folioRecibido,
     nombreRemitente,
     puestoRemitente,
     dependencia,
-    delegacion,
+    ambito,
     nombreDocumento,
-    turno,
+    nombreTurno,
+    puestoTurno,
     referenciaInteresados,
-    folioRecibido,
     fechaRecepcion,
-    fechaRecibido,
+    fechaAcuse,
     archivo,
     descripcion,
   });
